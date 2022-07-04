@@ -1,9 +1,11 @@
 package org.endava.tmd.TMDBookClub.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,6 +26,10 @@ public class Book {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_info", referencedColumnName = "id")
     BookInfo info;
+
+    @OneToMany(mappedBy = "book")
+    @JsonIgnore
+    private List<Rent> rentedBy;
 
 
     @Override

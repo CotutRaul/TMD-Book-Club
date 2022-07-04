@@ -34,6 +34,10 @@ public class User {
     @OneToMany(mappedBy = "owner")
     private List <Book> booksList;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List <Rent> booksRented;
+
     @Override
     public String toString() {
         return "User{" +
