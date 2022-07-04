@@ -1,13 +1,14 @@
 package org.endava.tmd.TMDBookClub.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookInfo {
@@ -21,4 +22,18 @@ public class BookInfo {
 
     @Column(nullable = false)
     private String author;
+
+
+    @OneToMany(mappedBy = "info")
+    @JsonIgnore
+    private List<Book> usersList;
+
+    @Override
+    public String toString() {
+        return "BookInfo{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                '}';
+    }
 }
