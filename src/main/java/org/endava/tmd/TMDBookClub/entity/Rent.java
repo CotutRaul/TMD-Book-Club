@@ -1,5 +1,6 @@
 package org.endava.tmd.TMDBookClub.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,18 +22,16 @@ public class Rent {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_user", referencedColumnName = "id")
     User user;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_book", referencedColumnName = "id")
     Book book;
 
 
-    @Column(name = "start_date",nullable = false)
+    @Column(nullable = false)
     private LocalDate startDate;
 
-    @Column(name = "end_date",nullable = false)
+    @Column(nullable = false)
     private LocalDate endDate;
 
 

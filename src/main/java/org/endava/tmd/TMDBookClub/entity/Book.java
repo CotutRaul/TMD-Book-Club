@@ -20,15 +20,13 @@ public class Book {
 
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_owner", referencedColumnName = "id")
     User owner;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_info", referencedColumnName = "id")
     BookInfo info;
 
-    @OneToMany(mappedBy = "book")
     @JsonIgnore
+    @OneToMany(mappedBy = "book")
     private List<Rent> rentedBy;
 
 

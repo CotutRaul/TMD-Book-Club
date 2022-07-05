@@ -21,7 +21,7 @@ public class BookController {
         bookService.addBook(userId,bookInfoId);
     }
 
-    @GetMapping
+    @RequestMapping(method = RequestMethod.GET)
     public List<Book> getAll() {
         return bookService.getAll();
     }
