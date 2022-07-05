@@ -1,5 +1,6 @@
 package org.endava.tmd.TMDBookClub.controller;
 
+import org.endava.tmd.TMDBookClub.entity.BookInfo;
 import org.endava.tmd.TMDBookClub.entity.User;
 import org.endava.tmd.TMDBookClub.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +49,9 @@ public class UserController {
         userService.deleteUser(id);
     }
 
-
+    @RequestMapping(params = "id", method = RequestMethod.POST)
+    public void addBook(@RequestParam("id") Long id, @RequestBody BookInfo bookInfo)
+    {
+        userService.addBook(id, bookInfo);
+    }
 }

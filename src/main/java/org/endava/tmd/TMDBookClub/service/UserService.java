@@ -1,6 +1,10 @@
 package org.endava.tmd.TMDBookClub.service;
 
+import org.endava.tmd.TMDBookClub.entity.Book;
+import org.endava.tmd.TMDBookClub.entity.BookInfo;
 import org.endava.tmd.TMDBookClub.entity.User;
+import org.endava.tmd.TMDBookClub.repository.BookInfoRepository;
+import org.endava.tmd.TMDBookClub.repository.BookRepository;
 import org.endava.tmd.TMDBookClub.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +17,12 @@ public class UserService {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private BookInfoRepository bookInfoRepository;
+
+    @Autowired
+    private BookRepository bookRepository;
 
 
     public List<User> getAll() {
@@ -42,5 +52,16 @@ public class UserService {
     }
 
 
-
+    public void addBook(Long id, BookInfo bookInfo) {
+        User tempUser = repository.findById(id).get();
+        BookInfo tempBookInfo = bookInfoRepository.findBookInfoByTitle(bookInfo.getTitle());
+        if(tempBookInfo == null)
+        {
+            tempBookInfo = bookInfoRepository.save(bookInfo);
+        }
+        Book book = new Book();
+        book.setInfo(tempBookInfo);
+        book.setOwner(tempUser);
+        bookRepository.save(book);
+    }
 }
