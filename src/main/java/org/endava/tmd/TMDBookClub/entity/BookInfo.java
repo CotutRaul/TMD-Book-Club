@@ -31,9 +31,9 @@ public class BookInfo {
     @Override
     public String toString() {
         return "BookInfo{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
+                "id=" + getId() +
+                ", title='" + getTitle() + '\'' +
+                ", author='" + getAuthor() + '\'' +
                 '}';
     }
 }

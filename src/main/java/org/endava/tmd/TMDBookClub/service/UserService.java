@@ -29,7 +29,6 @@ public class UserService {
         User checkUser = repository.findUserByNameOrEmail(user.getName(),user.getEmail());
         if(checkUser == null)
             repository.save(user);
-
     }
 
     public void deleteUser(Long id)
@@ -41,4 +40,7 @@ public class UserService {
         if (repository.findById(user.getId()).isPresent())
             repository.save(user);
     }
+
+
+
 }

@@ -22,10 +22,10 @@ public class Rent {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    User user;
+    private User user;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    Book book;
+    private Book book;
 
 
     @Column(nullable = false)
@@ -34,6 +34,14 @@ public class Rent {
     @Column(nullable = false)
     private LocalDate endDate;
 
-
-
+    @Override
+    public String toString() {
+        return "Rent{" +
+                "id=" + getId() +
+                ", user=" + getUser() +
+                ", book=" + getBook() +
+                ", startDate=" + getStartDate() +
+                ", endDate=" + getEndDate() +
+                '}';
+    }
 }

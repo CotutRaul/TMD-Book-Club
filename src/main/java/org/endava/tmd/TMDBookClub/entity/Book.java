@@ -20,10 +20,10 @@ public class Book {
 
 
     @ManyToOne(cascade = CascadeType.ALL)
-    User owner;
+    private User owner;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    BookInfo info;
+    private BookInfo info;
 
     @JsonIgnore
     @OneToMany(mappedBy = "book")
@@ -36,9 +36,9 @@ public class Book {
     @Override
     public String toString() {
         return "Book{" +
-                "id=" + id +
-                ", owner=" + owner +
-                ", info=" + info +
+                "id=" + getId() +
+                ", owner=" + getOwner() +
+                ", info=" + getInfo() +
                 '}';
     }
 }

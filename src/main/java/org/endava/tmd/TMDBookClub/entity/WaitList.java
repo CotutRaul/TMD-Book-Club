@@ -31,10 +31,10 @@ public class WaitList {
     @Override
     public String toString() {
         return "WaitList{" +
-                "id=" + id +
-                ", user=" + user +
-                ", book=" + book +
-                ", date=" + date +
+                "id=" + getId() +
+                ", user=" + getUser() +
+                ", book=" + getBook() +
+                ", date=" + getDate() +
                 '}';
     }
 }
