@@ -4,6 +4,7 @@ import org.endava.tmd.TMDBookClub.entity.Book;
 import org.endava.tmd.TMDBookClub.repository.BookInfoRepository;
 import org.endava.tmd.TMDBookClub.repository.BookRepository;
 import org.endava.tmd.TMDBookClub.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,16 +12,14 @@ import java.util.List;
 
 @Service
 public class BookService {
+    @Autowired
+    private BookRepository repository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private BookInfoRepository bookInfoRepository;
 
-    private final BookRepository repository;
-    private final UserRepository userRepository;
-    private final BookInfoRepository bookInfoRepository;
 
-    public BookService(BookRepository repository, UserRepository userRepository, BookInfoRepository bookInfoRepository) {
-        this.repository = repository;
-        this.userRepository = userRepository;
-        this.bookInfoRepository = bookInfoRepository;
-    }
 
     public void addBook(Long userId, Long bookInfoId) {
         Book book = new Book();

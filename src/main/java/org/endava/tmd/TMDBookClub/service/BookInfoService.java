@@ -2,6 +2,7 @@ package org.endava.tmd.TMDBookClub.service;
 
 import org.endava.tmd.TMDBookClub.entity.BookInfo;
 import org.endava.tmd.TMDBookClub.repository.BookInfoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,11 +11,9 @@ import java.util.Optional;
 @Service
 public class BookInfoService {
 
-    private final BookInfoRepository repository;
+    @Autowired
+    private BookInfoRepository repository;
 
-    public BookInfoService(BookInfoRepository repository) {
-        this.repository = repository;
-    }
 
     public List<BookInfo> getAll() {
         return repository.findAll();

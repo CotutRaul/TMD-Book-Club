@@ -11,7 +11,7 @@ import java.util.List;
 public class WaitListService {
 
     @Autowired
-    private  WaitListRepository repository;
+    private WaitListRepository repository;
 
 
     public List<WaitList> getAll() {
