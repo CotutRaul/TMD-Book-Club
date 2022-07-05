@@ -25,4 +25,10 @@ public class BookController {
     public List<Book> getAll() {
         return bookService.getAll();
     }
+
+    @RequestMapping(value = "/available",method = RequestMethod.GET)
+    public List<Book> getAvailableBooks(@RequestParam Long id)
+    {
+        return bookService.getAvailableBooks(id);
+    }
 }

@@ -25,11 +25,9 @@ public class RentController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void addRent(@RequestParam Long userId, @RequestParam Long bookId,
-                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate)
+    public void addRent(@RequestParam Long userId, @RequestParam Long bookId,@RequestParam int period)
     {
-        rentService.addRent(userId,bookId,startDate,endDate);
+        rentService.addRent(userId,bookId,period);
     }
 
 }

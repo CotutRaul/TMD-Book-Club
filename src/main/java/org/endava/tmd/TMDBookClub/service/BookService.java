@@ -7,7 +7,9 @@ import org.endava.tmd.TMDBookClub.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -30,6 +32,17 @@ public class BookService {
 
     public List<Book> getAll() {
         return repository.findAll();
+    }
+
+
+    public List<Book> getAvailableBooks(Long id)
+    {
+
+        List<Book> books = repository.getBooksWithNoWaitingList(id);
+        books = books.stream()
+                .filter(book -> book.getRentedBy().stream().noneMatch(rent -> rent.getEndDate().compareTo(LocalDate.now())>=0))
+                .collect(Collectors.toList());
+        return books;
     }
 
 

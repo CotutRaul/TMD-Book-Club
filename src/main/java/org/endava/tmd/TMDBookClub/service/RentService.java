@@ -21,12 +21,12 @@ public class RentService {
     private BookRepository bookRepository;
 
 
-    public void addRent(Long userId, Long bookId, LocalDate startDate , LocalDate endDate) {
+    public void addRent(Long userId, Long bookId, int period) {
         Rent rent = new Rent();
         rent.setUser(userRepository.findById(userId).get());
         rent.setBook(bookRepository.findById(bookId).get());
-        rent.setStartDate(startDate);
-        rent.setEndDate(endDate);
+        rent.setStartDate(LocalDate.now());
+        rent.setEndDate(LocalDate.now().plusWeeks(period));
         repository.save(rent);
     }
 
