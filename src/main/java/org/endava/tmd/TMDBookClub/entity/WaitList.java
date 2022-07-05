@@ -1,18 +1,19 @@
 package org.endava.tmd.TMDBookClub.entity;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
+import java.time.LocalDate;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Book {
+public class WaitList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false , updatable = false)
@@ -20,25 +21,20 @@ public class Book {
 
 
     @ManyToOne(cascade = CascadeType.ALL)
-    User owner;
+    private User user;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    BookInfo info;
+    private Book book;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "book")
-    private List<Rent> rentedBy;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "book")
-    private List<WaitList> waitedBy;
+    private LocalDate date;
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "WaitList{" +
                 "id=" + id +
-                ", owner=" + owner +
-                ", info=" + info +
+                ", user=" + user +
+                ", book=" + book +
+                ", date=" + date +
                 '}';
     }
 }
