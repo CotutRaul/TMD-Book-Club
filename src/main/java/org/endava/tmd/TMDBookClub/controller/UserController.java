@@ -54,4 +54,19 @@ public class UserController {
     {
         userService.addBook(id, bookInfo);
     }
+
+    @RequestMapping(value = "booksReturn", method = RequestMethod.GET)
+    public String getBooksReturnToOwner(@RequestParam("id") Long id)
+    {
+        return userService.getBooksReturnToOwner(id);
+    }
+
+
+    @RequestMapping(value = "giveRentedBooks", method = RequestMethod.GET)
+    public String getBooksUserNeedToReturn(@RequestParam("id") Long id)
+    {
+        return userService.getBooksUserNeedToReturn(id);
+    }
+
+
 }

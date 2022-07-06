@@ -1,6 +1,5 @@
 package org.endava.tmd.TMDBookClub.service;
 
-import org.endava.tmd.TMDBookClub.entity.Rent;
 import org.endava.tmd.TMDBookClub.entity.WaitList;
 import org.endava.tmd.TMDBookClub.repository.BookRepository;
 import org.endava.tmd.TMDBookClub.repository.UserRepository;

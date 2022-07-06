@@ -3,13 +3,11 @@ package org.endava.tmd.TMDBookClub.controller;
 import org.endava.tmd.TMDBookClub.entity.Rent;
 import org.endava.tmd.TMDBookClub.service.RentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
