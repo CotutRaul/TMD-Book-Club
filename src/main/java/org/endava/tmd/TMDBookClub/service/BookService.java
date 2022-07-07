@@ -38,7 +38,7 @@ public class BookService {
     public List<Book> getAvailableBooks(Long id)
     {
 
-        List<Book> books = repository.getBooksFromOtherUsers(id);
+        List<Book> books = repository.findBooksFromOtherUsers(id);
         books = books.stream()
                 .filter(book -> book.getRentedBy().stream().noneMatch(rent -> rent.getEndDate().compareTo(LocalDate.now())>=0))
                 .collect(Collectors.toList());
@@ -49,7 +49,7 @@ public class BookService {
     public String searchForBooks(String search)
     {
         search = "%"+search+"%";
-        List<Book> books = repository.getBooksSearched(search);
+        List<Book> books = repository.findBooksSearched(search);
         StringBuilder result = new StringBuilder();
         for (Book book : books) {
             result.append("Book with id = ")

@@ -34,5 +34,17 @@ public class RentService {
         return repository.findAll();
     }
 
+    public void extendPeriod(Long id, int period)
+    {
+        Rent rent = repository.findById(id).get();
+        rent.setEndDate(rent.getEndDate().plusWeeks(period));
+        repository.save(rent);
+    }
 
+    public void extendPeriod(Long userId, Long bookId, int period)
+    {
+        Rent rent = repository.findRentByUserIdAndBookId(userId, bookId);
+        rent.setEndDate(rent.getEndDate().plusWeeks(period));
+        repository.save(rent);
+    }
 }

@@ -28,4 +28,16 @@ public class RentController {
         rentService.addRent(userId,bookId,period);
     }
 
+    @RequestMapping(params = {"id", "period"},method = RequestMethod.PUT)
+    public void extendRent(@RequestParam Long id, @RequestParam int period)
+    {
+        rentService.extendPeriod(id, period);
+    }
+
+    @RequestMapping(params = {"userId", "bookId", "period"},method = RequestMethod.PUT)
+    public void extendRent(@RequestParam Long userId, @RequestParam Long bookId, @RequestParam int period)
+    {
+        rentService.extendPeriod(userId, bookId, period);
+    }
+
 }
