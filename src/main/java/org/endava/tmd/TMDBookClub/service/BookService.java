@@ -38,11 +38,41 @@ public class BookService {
     public List<Book> getAvailableBooks(Long id)
     {
 
-        List<Book> books = repository.getBooksWithNoWaitingList(id);
+        List<Book> books = repository.getBooksFromOtherUsers(id);
         books = books.stream()
                 .filter(book -> book.getRentedBy().stream().noneMatch(rent -> rent.getEndDate().compareTo(LocalDate.now())>=0))
                 .collect(Collectors.toList());
         return books;
+    }
+
+
+    public String searchForBooks(String search)
+    {
+        search = "%"+search+"%";
+        List<Book> books = repository.getBooksSearched(search);
+        StringBuilder result = new StringBuilder();
+        for (Book book : books) {
+            result.append("Book with id = ")
+                    .append(book.getId())
+                    .append(", Title = ")
+                    .append(book.getInfo().getTitle())
+                    .append("  Author = ")
+                    .append(book.getInfo().getAuthor());
+            if(book.getRentedBy().size()==0)
+            {
+                result.append(" is available and can be rented from ").append(book.getOwner().getName()).append("\n");
+            }
+            else
+                if(book.getRentedBy().get(book.getRentedBy().size()-1).getEndDate().compareTo(LocalDate.now())>=0)
+                {
+                    result.append(" will be available in: ").append(book.getRentedBy().get(book.getRentedBy().size()-1).getEndDate()).append("\n");
+                }
+                else
+                {
+                    result.append(" is available").append("\n").append(book.getOwner().getName()).append("\n");
+                }
+        }
+        return result.toString();
     }
 
 

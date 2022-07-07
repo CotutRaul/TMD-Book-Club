@@ -31,4 +31,10 @@ public class BookController {
     {
         return bookService.getAvailableBooks(id);
     }
+
+    @RequestMapping(value = "search", method = RequestMethod.GET)
+    public String searchForBooks(@RequestParam String search)
+    {
+        return bookService.searchForBooks(search);
+    }
 }
