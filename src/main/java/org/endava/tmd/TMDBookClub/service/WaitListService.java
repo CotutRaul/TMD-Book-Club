@@ -28,8 +28,8 @@ public class WaitListService {
 
     public void addWaitList(Long userId, Long bookId) {
         WaitList waitList = new WaitList();
-        waitList.setUser(userRepository.findById(userId).get());
-        waitList.setBook(bookRepository.findById(bookId).get());
+        waitList.setUser(userRepository.findById(userId).orElse(null));
+        waitList.setBook(bookRepository.findById(bookId).orElse(null));
         waitList.setDate(LocalDate.now());
 
         repository.save(waitList);

@@ -2,7 +2,6 @@ package org.endava.tmd.TMDBookClub.service;
 
 import org.endava.tmd.TMDBookClub.entity.Book;
 import org.endava.tmd.TMDBookClub.entity.BookInfo;
-import org.endava.tmd.TMDBookClub.entity.Rent;
 import org.endava.tmd.TMDBookClub.entity.User;
 import org.endava.tmd.TMDBookClub.repository.BookInfoRepository;
 import org.endava.tmd.TMDBookClub.repository.BookRepository;
@@ -60,7 +59,7 @@ public class UserService {
 
 
     public void addBook(Long id, BookInfo bookInfo) {
-        User tempUser = repository.findById(id).get();
+        User tempUser = repository.findById(id).orElse(null);
         BookInfo tempBookInfo = bookInfoRepository.findBookInfoByTitle(bookInfo.getTitle());
         if(tempBookInfo == null)
         {

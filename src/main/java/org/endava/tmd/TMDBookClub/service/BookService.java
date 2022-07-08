@@ -25,8 +25,8 @@ public class BookService {
 
     public void addBook(Long userId, Long bookInfoId) {
         Book book = new Book();
-        book.setOwner(userRepository.findById(userId).get());
-        book.setInfo(bookInfoRepository.findById(bookInfoId).get());
+        book.setOwner(userRepository.findById(userId).orElse(null));
+        book.setInfo(bookInfoRepository.findById(bookInfoId).orElse(null));
         repository.save(book);
     }
 
