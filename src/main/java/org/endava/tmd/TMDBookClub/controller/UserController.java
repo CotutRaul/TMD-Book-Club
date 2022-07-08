@@ -18,7 +18,6 @@ public class UserController {
     private UserService userService;
 
 
-
     @RequestMapping(method = RequestMethod.GET)
     public List<User> getAll() {
         return userService.getAll();
@@ -43,7 +42,7 @@ public class UserController {
         userService.updateUser(user);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
+    @RequestMapping(params = "id", method = RequestMethod.DELETE)
     public void deleteById(@RequestParam("id") Long id)
     {
         userService.deleteUser(id);
@@ -55,14 +54,14 @@ public class UserController {
         userService.addBook(id, bookInfo);
     }
 
-    @RequestMapping(value = "booksReturn", method = RequestMethod.GET)
+    @RequestMapping(params = "id", value = "booksReturn", method = RequestMethod.GET)
     public String getBooksReturnToOwner(@RequestParam("id") Long id)
     {
         return userService.getBooksReturnToOwner(id);
     }
 
 
-    @RequestMapping(value = "giveRentedBooks", method = RequestMethod.GET)
+    @RequestMapping(params = "id", value = "giveRentedBooks", method = RequestMethod.GET)
     public String getBooksUserNeedToReturn(@RequestParam("id") Long id)
     {
         return userService.getBooksUserNeedToReturn(id);

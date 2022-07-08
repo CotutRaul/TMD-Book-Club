@@ -22,7 +22,7 @@ public class WaitListController {
         return waitListService.getAll();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(params = {"userId","bookId"}, method = RequestMethod.POST)
     public void addWaitList(@RequestParam Long userId, @RequestParam Long bookId) {
         waitListService.addWaitList(userId,bookId);
     }

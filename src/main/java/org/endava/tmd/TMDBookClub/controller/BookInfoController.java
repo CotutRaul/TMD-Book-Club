@@ -17,7 +17,6 @@ public class BookInfoController {
     private BookInfoService bookInfoService;
 
 
-
     @RequestMapping(method = RequestMethod.GET)
     public List<BookInfo> getAll() {
         return bookInfoService.getAll();
@@ -42,7 +41,7 @@ public class BookInfoController {
         bookInfoService.updateBookInfo(bookInfo);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
+    @RequestMapping(params = {"id"},method = RequestMethod.DELETE)
     public void deleteById(@RequestParam("id") Long id)
     {
         bookInfoService.deleteBookInfo(id);

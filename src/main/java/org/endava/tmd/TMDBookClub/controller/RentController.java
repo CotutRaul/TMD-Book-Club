@@ -17,12 +17,13 @@ public class RentController {
     @Autowired
     private RentService rentService;
 
+
     @RequestMapping(method = RequestMethod.GET)
     public List<Rent> getAll() {
         return rentService.getAll();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(params = {"userId", "bookId", "period"},method = RequestMethod.POST)
     public void addRent(@RequestParam Long userId, @RequestParam Long bookId,@RequestParam int period)
     {
         rentService.addRent(userId,bookId,period);

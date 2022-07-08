@@ -6,6 +6,7 @@ import org.endava.tmd.TMDBookClub.entity.Rent;
 import org.endava.tmd.TMDBookClub.entity.User;
 import org.endava.tmd.TMDBookClub.repository.BookInfoRepository;
 import org.endava.tmd.TMDBookClub.repository.BookRepository;
+import org.endava.tmd.TMDBookClub.repository.RentRepository;
 import org.endava.tmd.TMDBookClub.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,9 @@ public class UserService {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private RentRepository rentRepository;
 
 
     public List<User> getAll() {
@@ -89,11 +93,7 @@ public class UserService {
     public String getBooksUserNeedToReturn(Long id)
     {
         StringBuilder result = new StringBuilder("You rented:\n");
-        List<Rent> rents = repository.findbooksRentedbyId(id);
-        List<Book> books = rents.stream().map(Rent::getBook).collect(Collectors.toList());
-        books = books.stream()
-                .filter(book -> book.getRentedBy().stream().anyMatch(rent -> rent.getEndDate().compareTo(LocalDate.now())>=0))
-                .collect(Collectors.toList());
+        List<Book> books = rentRepository.findbooksRentedbyId(id);
         for (Book book : books) {
             result.append("Book with id = ")
                     .append(book.getId()).append(", Title = ")

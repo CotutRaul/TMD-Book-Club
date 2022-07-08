@@ -13,6 +13,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u.booksList from User u")
     List<Book> findbooksListbyId(Long id);
 
-    @Query("select u.booksRented from User u")
-    List<Rent> findbooksRentedbyId(long id);
 }
