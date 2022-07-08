@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     User findUserByNameOrEmail(String name, String email);
-    @Query("select u.booksList from User u")
+    @Query("select u.booksList from User u where u.id= :id")
     List<Book> findbooksListbyId(Long id);
 
 }

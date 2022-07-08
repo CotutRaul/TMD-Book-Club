@@ -21,6 +21,10 @@ public class RentService {
     private BookRepository bookRepository;
 
 
+    public List<Rent> getAll() {
+        return repository.findAll();
+    }
+
     public void addRent(Long userId, Long bookId, int period) {
         Rent rent = new Rent();
         rent.setUser(userRepository.findById(userId).get());
@@ -28,10 +32,6 @@ public class RentService {
         rent.setStartDate(LocalDate.now());
         rent.setEndDate(LocalDate.now().plusWeeks(period));
         repository.save(rent);
-    }
-
-    public List<Rent> getAll() {
-        return repository.findAll();
     }
 
     public void extendPeriod(Long id, int period)
