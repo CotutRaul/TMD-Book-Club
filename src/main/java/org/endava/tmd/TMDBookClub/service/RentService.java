@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.WEEKS;
+
 @Service
 public class RentService {
 
@@ -38,15 +40,32 @@ public class RentService {
 
     public void extendPeriod(Long id, int period)
     {
-        Rent rent = repository.findById(id).orElse(null);
-        rent.setEndDate(rent.getEndDate().plusWeeks(period));
-        repository.save(rent);
+        if(period > 0 && period <= 2)
+        {
+            Rent rent = repository.findById(id).orElse(null);
+            if(rent.getEndDate().compareTo(LocalDate.now())>=0)
+            {
+                rent.setEndDate(rent.getEndDate().plusWeeks(period));
+            }
+            if(WEEKS.between(rent.getStartDate(),rent.getEndDate())<=6){
+                repository.save(rent);
+            }
+        }
     }
 
     public void extendPeriod(Long userId, Long bookId, int period)
     {
-        Rent rent = repository.findRentByUserIdAndBookId(userId, bookId);
-        rent.setEndDate(rent.getEndDate().plusWeeks(period));
-        repository.save(rent);
+
+        if(period > 0 && period <= 2)
+        {
+            Rent rent = repository.findRentByUserIdAndBookId(userId, bookId);
+            if(rent.getEndDate().compareTo(LocalDate.now())>=0)
+            {
+                rent.setEndDate(rent.getEndDate().plusWeeks(period));
+            }
+            if(WEEKS.between(rent.getStartDate(),rent.getEndDate())<=6){
+                repository.save(rent);
+            }
+        }
     }
 }
