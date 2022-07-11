@@ -4,6 +4,7 @@ import org.endava.tmd.TMDBookClub.entity.Rent;
 import org.endava.tmd.TMDBookClub.repository.BookRepository;
 import org.endava.tmd.TMDBookClub.repository.RentRepository;
 import org.endava.tmd.TMDBookClub.repository.UserRepository;
+import org.endava.tmd.TMDBookClub.repository.WaitListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,9 @@ public class RentService {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private WaitListRepository waitListRepository;
+
 
     public List<Rent> getAll() {
         return repository.findAll();
@@ -38,6 +42,9 @@ public class RentService {
             rent.setBook(bookRepository.findById(bookId).orElse(null));
             rent.setStartDate(LocalDate.now());
             rent.setEndDate(LocalDate.now().plusWeeks(period));
+            Long waitListId = waitListRepository.findIdByIdUserAndIdBook(userId,bookId);
+            if(waitListId != null)
+                waitListRepository.deleteById(waitListId);
             repository.save(rent);
         }
     }

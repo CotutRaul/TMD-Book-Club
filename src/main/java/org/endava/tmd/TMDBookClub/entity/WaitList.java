@@ -20,10 +20,10 @@ public class WaitList {
     private Long id;
 
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     private Book book;
 
     private LocalDate date;

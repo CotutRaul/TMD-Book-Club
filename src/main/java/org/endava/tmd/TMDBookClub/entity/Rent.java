@@ -20,10 +20,10 @@ public class Rent {
     @Column(nullable = false , updatable = false)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     private Book book;
 
 

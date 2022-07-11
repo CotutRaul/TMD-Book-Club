@@ -19,10 +19,10 @@ public class Book {
     private Long id;
 
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     private User owner;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     private BookInfo info;
 
     @JsonIgnore
