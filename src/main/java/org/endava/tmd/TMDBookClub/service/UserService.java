@@ -2,6 +2,7 @@ package org.endava.tmd.TMDBookClub.service;
 
 import org.endava.tmd.TMDBookClub.entity.Book;
 import org.endava.tmd.TMDBookClub.entity.BookInfo;
+import org.endava.tmd.TMDBookClub.entity.Rent;
 import org.endava.tmd.TMDBookClub.entity.User;
 import org.endava.tmd.TMDBookClub.repository.BookInfoRepository;
 import org.endava.tmd.TMDBookClub.repository.BookRepository;
@@ -10,10 +11,8 @@ import org.endava.tmd.TMDBookClub.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -74,17 +73,15 @@ public class UserService {
     public String getBooksReturnToOwner(Long id)
     {
         StringBuilder result = new StringBuilder();
-        List<Book> books = repository.findbooksListbyId(id);
-        books = books.stream()
-                .filter(book -> book.getRentedBy().stream().anyMatch(rent -> rent.getEndDate().compareTo(LocalDate.now())>=0))
-                .collect(Collectors.toList());
-        for (Book book : books) {
+        List<Rent> rents = rentRepository.findBooksReturnToOwner(id);
+
+        for (Rent rent : rents) {
             result.append("Book with id = ")
-                    .append(book.getId()).append(", Title = ")
-                    .append(book.getInfo().getTitle())
+                    .append(rent.getBook().getId()).append(", Title = ")
+                    .append(rent.getBook().getInfo().getTitle())
                     .append(" will be returned at ")
-                    .append(book.getRentedBy().get(book.getRentedBy().size() - 1).getEndDate()).append(" by ")
-                    .append(book.getRentedBy().get(book.getRentedBy().size() - 1).getUser().getName()).append("\n");
+                    .append(rent.getEndDate()).append(" by ")
+                    .append(rent.getUser().getName()).append("\n");
         }
         return result.toString();
     }
