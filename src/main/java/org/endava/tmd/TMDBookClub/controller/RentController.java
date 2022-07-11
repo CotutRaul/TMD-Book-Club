@@ -23,6 +23,10 @@ public class RentController {
         return rentService.getAll();
     }
 
+    @RequestMapping(value = "active",method = RequestMethod.GET)
+    public List<Rent> getActive() {
+        return rentService.getActiveRents();
+    }
     @RequestMapping(params = {"userId", "bookId", "period"},method = RequestMethod.POST)
     public void addRent(@RequestParam Long userId, @RequestParam Long bookId,@RequestParam int period)
     {

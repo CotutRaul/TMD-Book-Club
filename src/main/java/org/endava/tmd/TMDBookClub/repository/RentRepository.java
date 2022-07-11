@@ -17,4 +17,7 @@ public interface RentRepository extends JpaRepository<Rent, Long> {
 
     @Query("select case when (count(r) > 0)  then true else false end from Rent r where r.book.id = :id and r.endDate >= current_date")
     Boolean findIfBookIsRented(long id);
+
+    @Query("select r from Rent r where r.endDate >= current_date ")
+    List<Rent> findActiveRents();
 }

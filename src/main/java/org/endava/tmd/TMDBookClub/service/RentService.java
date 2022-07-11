@@ -27,6 +27,10 @@ public class RentService {
         return repository.findAll();
     }
 
+    public List<Rent> getActiveRents(){
+        return repository.findActiveRents();
+    }
+
     public void addRent(Long userId, Long bookId, int period) {
         if(!repository.findIfBookIsRented(bookId) && period>0 && period<=4) {
             Rent rent = new Rent();
