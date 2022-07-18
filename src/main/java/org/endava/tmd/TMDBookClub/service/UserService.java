@@ -9,6 +9,8 @@ import org.endava.tmd.TMDBookClub.repository.BookRepository;
 import org.endava.tmd.TMDBookClub.repository.RentRepository;
 import org.endava.tmd.TMDBookClub.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,20 +32,31 @@ public class UserService {
     private RentRepository rentRepository;
 
 
-    public List<User> getAll() {
+    public List<User> getAllUsers() {
         return repository.findAll();
     }
 
-    public Optional<User> getById(Long id)
+    public Optional<User> getUserById(Long id)
     {
         return repository.findById(id);
     }
 
-    public void addUser(User user)
+    public ResponseEntity<User> getUserByEmailAndPassword(String email, String password)
+    {
+        User user = repository.findUserByEmailAndPassword(email, password);
+        if (user != null)
+        {
+            return new ResponseEntity(user, HttpStatus.OK);
+        }
+        return new ResponseEntity(null, HttpStatus.NO_CONTENT);
+    }
+
+    public ResponseEntity<User> addUser(User user)
     {
         User checkUser = repository.findUserByNameOrEmail(user.getName(),user.getEmail());
         if(checkUser == null)
-            repository.save(user);
+            return new ResponseEntity<>(repository.save(user), HttpStatus.CREATED);
+        return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
     }
 
     public void deleteUser(Long id)
