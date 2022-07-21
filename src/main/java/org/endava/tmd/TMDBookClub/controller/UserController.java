@@ -1,5 +1,6 @@
 package org.endava.tmd.TMDBookClub.controller;
 
+import org.endava.tmd.TMDBookClub.dto.MyBook;
 import org.endava.tmd.TMDBookClub.entity.BookInfo;
 import org.endava.tmd.TMDBookClub.entity.User;
 import org.endava.tmd.TMDBookClub.service.UserService;
@@ -66,6 +67,12 @@ public class UserController {
     public String getBooksReturnToOwner(@RequestParam("id") Long id)
     {
         return userService.getBooksReturnToOwner(id);
+    }
+
+    @RequestMapping(params = "id", value = "myBooks", method = RequestMethod.GET)
+    public ResponseEntity<List<MyBook>> getMyBooks(@RequestParam("id") Long id)
+    {
+        return userService.getMyBooks(id);
     }
 
 

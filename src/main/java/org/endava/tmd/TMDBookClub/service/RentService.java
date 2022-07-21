@@ -66,7 +66,6 @@ public class RentService {
 
     public void extendPeriod(Long userId, Long bookId, int period)
     {
-
         if(period > 0 && period <= 2)
         {
             Rent rent = repository.findRentByUserIdAndBookId(userId, bookId);
@@ -78,5 +77,10 @@ public class RentService {
                 repository.save(rent);
             }
         }
+    }
+
+    public LocalDate getLastEndDateBookWasRented(Long bookId)
+    {
+        return repository.findLastEndDateBookWasRented(bookId);
     }
 }

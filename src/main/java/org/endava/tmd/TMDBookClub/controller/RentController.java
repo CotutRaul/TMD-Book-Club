@@ -5,6 +5,7 @@ import org.endava.tmd.TMDBookClub.service.RentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -41,6 +42,12 @@ public class RentController {
     public void extendRent(@RequestParam Long userId, @RequestParam Long bookId, @RequestParam int period)
     {
         rentService.extendPeriod(userId, bookId, period);
+    }
+
+    @RequestMapping(params = {"bookId"},method = RequestMethod.GET)
+    public LocalDate getLastEndDateBookWasRented(@RequestParam Long bookId)
+    {
+        return rentService.getLastEndDateBookWasRented(bookId);
     }
 
 }

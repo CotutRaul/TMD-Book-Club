@@ -1,5 +1,6 @@
 package org.endava.tmd.TMDBookClub.service;
 
+import org.endava.tmd.TMDBookClub.dto.MyBook;
 import org.endava.tmd.TMDBookClub.entity.Book;
 import org.endava.tmd.TMDBookClub.entity.BookInfo;
 import org.endava.tmd.TMDBookClub.entity.Rent;
@@ -13,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +36,7 @@ public class UserService {
 
 
     public List<User> getAllUsers() {
+        getMyBooks(1L);
         return repository.findAll();
     }
 
@@ -46,9 +50,9 @@ public class UserService {
         User user = repository.findUserByEmailAndPassword(email, password);
         if (user != null)
         {
-            return new ResponseEntity(user, HttpStatus.OK);
+            return new ResponseEntity<>(user, HttpStatus.OK);
         }
-        return new ResponseEntity(null, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
     public ResponseEntity<User> addUser(User user)
@@ -98,6 +102,24 @@ public class UserService {
         }
         return result.toString();
     }
+
+    public ResponseEntity<List<MyBook>> getMyBooks(Long id)
+    {
+        List<MyBook> myBooks = new ArrayList<>();
+        List<Book> booksList = repository.findById(id).get().getBooksList();
+        for (Book book : booksList) {
+            MyBook myBook = new MyBook();
+            myBook.setInfo(book.getInfo());
+            Rent rent = book.getRentedBy().stream().filter(r -> r.getEndDate().compareTo(LocalDate.now()) >= 0).findFirst().orElse(null);
+            if (rent != null) {
+                myBook.setUserName(rent.getUser().getName());
+                myBook.setReturnDate(rent.getEndDate());
+            }
+            myBooks.add(myBook);
+        }
+        return new ResponseEntity<>(myBooks,HttpStatus.OK);
+    }
+
 
     public String getBooksUserNeedToReturn(Long id)
     {
