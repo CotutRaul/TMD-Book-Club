@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MyBook {
+    private Long id;
     private BookInfo info;
     private LocalDate returnDate;
     private String userName;

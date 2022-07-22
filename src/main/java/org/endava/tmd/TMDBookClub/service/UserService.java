@@ -109,6 +109,7 @@ public class UserService {
         List<Book> booksList = repository.findById(id).get().getBooksList();
         for (Book book : booksList) {
             MyBook myBook = new MyBook();
+            myBook.setId(book.getId());
             myBook.setInfo(book.getInfo());
             Rent rent = book.getRentedBy().stream().filter(r -> r.getEndDate().compareTo(LocalDate.now()) >= 0).findFirst().orElse(null);
             if (rent != null) {
