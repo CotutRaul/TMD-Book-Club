@@ -1,6 +1,7 @@
 package org.endava.tmd.TMDBookClub.service;
 
 import org.endava.tmd.TMDBookClub.dto.MyBook;
+import org.endava.tmd.TMDBookClub.dto.MyRented;
 import org.endava.tmd.TMDBookClub.entity.Book;
 import org.endava.tmd.TMDBookClub.entity.BookInfo;
 import org.endava.tmd.TMDBookClub.entity.Rent;
@@ -125,7 +126,7 @@ public class UserService {
     public String getBooksUserNeedToReturn(Long id)
     {
         StringBuilder result = new StringBuilder("You rented:\n");
-        List<Book> books = rentRepository.findbooksRentedbyId(id);
+        List<Book> books = rentRepository.findbooksRentedByUserId(id);
         for (Book book : books) {
             result.append("Book with id = ")
                     .append(book.getId()).append(", Title = ")
@@ -134,6 +135,21 @@ public class UserService {
                     .append(" and need to return it at ").append(book.getRentedBy().get(book.getRentedBy().size() - 1).getEndDate()).append("\n");
         }
         return result.toString();
+    }
+
+    public ResponseEntity<List<MyRented>> getMyRented(Long id)
+    {
+        List<MyRented> myRenteds = new ArrayList<>();
+        List<Rent> rents = rentRepository.findActiveRentsByUserId(id);
+        for (Rent rent : rents) {
+            MyRented myRented = new MyRented();
+            myRented.setId(rent.getId());
+            myRented.setInfo(rent.getBook().getInfo());
+            myRented.setUserName(rent.getBook().getOwner().getName());
+            myRented.setReturnDate(rent.getEndDate());
+            myRenteds.add(myRented);
+        }
+        return new ResponseEntity<>(myRenteds,HttpStatus.OK);
     }
 }
 
