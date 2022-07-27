@@ -6,6 +6,8 @@ import org.endava.tmd.TMDBookClub.repository.RentRepository;
 import org.endava.tmd.TMDBookClub.repository.UserRepository;
 import org.endava.tmd.TMDBookClub.repository.WaitListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -49,28 +51,27 @@ public class RentService {
         }
     }
 
-    public void extendPeriod(Long id, int period)
-    {
-        if(period > 0 && period <= 2)
-        {
+    public ResponseEntity<Rent> extendPeriod(Long id, int period) {
+        if (period > 0 && period <= 2) {
             Rent rent = repository.findById(id).orElse(null);
-            if(rent.getEndDate().compareTo(LocalDate.now())>=0)
-            {
+            if (rent.getEndDate().compareTo(LocalDate.now()) >= 0) {
                 rent.setEndDate(rent.getEndDate().plusWeeks(period));
             }
-            if(WEEKS.between(rent.getStartDate(),rent.getEndDate())<=6){
-                repository.save(rent);
+            if (WEEKS.between(rent.getStartDate(), rent.getEndDate()) <= 6) {
+                return new ResponseEntity<>(repository.save(rent), HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
             }
         }
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
-
     public void extendPeriod(Long userId, Long bookId, int period)
     {
         if(period > 0 && period <= 2)
         {
             Rent rent = repository.findRentByUserIdAndBookId(userId, bookId);
-            if(rent.getEndDate().compareTo(LocalDate.now())>=0)
-            {
+            if(rent.getEndDate().compareTo(LocalDate.now())>=0){
                 rent.setEndDate(rent.getEndDate().plusWeeks(period));
             }
             if(WEEKS.between(rent.getStartDate(),rent.getEndDate())<=6){

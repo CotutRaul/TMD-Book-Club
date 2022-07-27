@@ -3,6 +3,7 @@ package org.endava.tmd.TMDBookClub.controller;
 import org.endava.tmd.TMDBookClub.entity.Rent;
 import org.endava.tmd.TMDBookClub.service.RentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -33,9 +34,9 @@ public class RentController {
     }
 
     @RequestMapping(params = {"id", "period"},method = RequestMethod.PUT)
-    public void extendRent(@RequestParam Long id, @RequestParam int period)
+    public ResponseEntity<Rent> extendRent(@RequestParam Long id, @RequestParam int period)
     {
-        rentService.extendPeriod(id, period);
+        return rentService.extendPeriod(id, period);
     }
 
     @RequestMapping(params = {"userId", "bookId", "period"},method = RequestMethod.PUT)
