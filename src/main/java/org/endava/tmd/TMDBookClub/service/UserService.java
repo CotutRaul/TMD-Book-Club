@@ -75,17 +75,21 @@ public class UserService {
     }
 
 
-    public void addBook(Long id, BookInfo bookInfo) {
+    public ResponseEntity<Book> addBook(Long id, BookInfo bookInfo) {
+        HttpStatus status = HttpStatus.OK;
         User tempUser = repository.findById(id).orElse(null);
+        if(tempUser == null || bookInfo.getTitle().equals("") || bookInfo.getAuthor().equals("")){
+            return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+        }
         BookInfo tempBookInfo = bookInfoRepository.findBookInfoByTitle(bookInfo.getTitle());
-        if(tempBookInfo == null)
-        {
+        if(tempBookInfo == null){
             tempBookInfo = bookInfoRepository.save(bookInfo);
+            status = HttpStatus.CREATED;
         }
         Book book = new Book();
         book.setInfo(tempBookInfo);
         book.setOwner(tempUser);
-        bookRepository.save(book);
+        return new ResponseEntity<>(bookRepository.save(book),status);
     }
 
     public String getBooksReturnToOwner(Long id)
