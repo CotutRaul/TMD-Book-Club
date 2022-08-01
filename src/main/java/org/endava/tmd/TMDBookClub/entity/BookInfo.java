@@ -26,7 +26,7 @@ public class BookInfo {
 
     @OneToMany(mappedBy = "info")
     @JsonIgnore
-    private List<Book> usersList;
+    private List<Book> booksList;
 
     @Override
     public String toString() {

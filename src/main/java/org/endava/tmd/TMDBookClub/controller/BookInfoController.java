@@ -1,5 +1,6 @@
 package org.endava.tmd.TMDBookClub.controller;
 
+import org.endava.tmd.TMDBookClub.dto.BookDTO;
 import org.endava.tmd.TMDBookClub.entity.BookInfo;
 import org.endava.tmd.TMDBookClub.service.BookInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,11 @@ public class BookInfoController {
     @RequestMapping(method = RequestMethod.GET)
     public List<BookInfo> getAll() {
         return bookInfoService.getAll();
+    }
+
+    @RequestMapping(value = "home", method = RequestMethod.GET)
+    public ResponseEntity<List<BookDTO>> getAllHomeBooks(){
+        return bookInfoService.getAllHomeBooks();
     }
 
     @RequestMapping(params = "id", method = RequestMethod.GET)

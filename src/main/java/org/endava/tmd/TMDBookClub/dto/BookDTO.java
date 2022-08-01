@@ -12,9 +12,10 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MyBook {
+public class BookDTO {
     private Long id;
     private BookInfo info;
     private LocalDate returnDate;
     private String userName;
+    private Boolean available;
 }

@@ -1,7 +1,6 @@
 package org.endava.tmd.TMDBookClub.service;
 
-import org.endava.tmd.TMDBookClub.dto.MyBook;
-import org.endava.tmd.TMDBookClub.dto.MyRented;
+import org.endava.tmd.TMDBookClub.dto.BookDTO;
 import org.endava.tmd.TMDBookClub.entity.Book;
 import org.endava.tmd.TMDBookClub.entity.BookInfo;
 import org.endava.tmd.TMDBookClub.entity.Rent;
@@ -37,7 +36,6 @@ public class UserService {
 
 
     public List<User> getAllUsers() {
-        getMyBooks(1L);
         return repository.findAll();
     }
 
@@ -108,22 +106,22 @@ public class UserService {
         return result.toString();
     }
 
-    public ResponseEntity<List<MyBook>> getMyBooks(Long id)
+    public ResponseEntity<List<BookDTO>> getMyBooks(Long id)
     {
-        List<MyBook> myBooks = new ArrayList<>();
+        List<BookDTO> bookDTOS = new ArrayList<>();
         List<Book> booksList = repository.findById(id).get().getBooksList();
         for (Book book : booksList) {
-            MyBook myBook = new MyBook();
-            myBook.setId(book.getId());
-            myBook.setInfo(book.getInfo());
+            BookDTO bookDTO = new BookDTO();
+            bookDTO.setId(book.getId());
+            bookDTO.setInfo(book.getInfo());
             Rent rent = book.getRentedBy().stream().filter(r -> r.getEndDate().compareTo(LocalDate.now()) >= 0).findFirst().orElse(null);
             if (rent != null) {
-                myBook.setUserName(rent.getUser().getName());
-                myBook.setReturnDate(rent.getEndDate());
+                bookDTO.setUserName(rent.getUser().getName());
+                bookDTO.setReturnDate(rent.getEndDate());
             }
-            myBooks.add(myBook);
+            bookDTOS.add(bookDTO);
         }
-        return new ResponseEntity<>(myBooks,HttpStatus.OK);
+        return new ResponseEntity<>(bookDTOS,HttpStatus.OK);
     }
 
 
@@ -141,19 +139,19 @@ public class UserService {
         return result.toString();
     }
 
-    public ResponseEntity<List<MyRented>> getMyRented(Long id)
+    public ResponseEntity<List<BookDTO>> getMyRented(Long id)
     {
-        List<MyRented> myRenteds = new ArrayList<>();
+        List<BookDTO> bookDTOS = new ArrayList<>();
         List<Rent> rents = rentRepository.findActiveRentsByUserId(id);
         for (Rent rent : rents) {
-            MyRented myRented = new MyRented();
-            myRented.setId(rent.getId());
-            myRented.setInfo(rent.getBook().getInfo());
-            myRented.setUserName(rent.getBook().getOwner().getName());
-            myRented.setReturnDate(rent.getEndDate());
-            myRenteds.add(myRented);
+            BookDTO bookDTO = new BookDTO();
+            bookDTO.setId(rent.getId());
+            bookDTO.setInfo(rent.getBook().getInfo());
+            bookDTO.setUserName(rent.getBook().getOwner().getName());
+            bookDTO.setReturnDate(rent.getEndDate());
+            bookDTOS.add(bookDTO);
         }
-        return new ResponseEntity<>(myRenteds,HttpStatus.OK);
+        return new ResponseEntity<>(bookDTOS,HttpStatus.OK);
     }
 }
 
