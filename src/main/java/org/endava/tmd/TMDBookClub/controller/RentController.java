@@ -28,9 +28,9 @@ public class RentController {
         return rentService.getActiveRents();
     }
     @RequestMapping(params = {"userId", "bookId", "period"},method = RequestMethod.POST)
-    public void addRent(@RequestParam Long userId, @RequestParam Long bookId,@RequestParam int period)
+    public ResponseEntity<Rent> addRent(@RequestParam Long userId, @RequestParam Long bookId, @RequestParam int period)
     {
-        rentService.addRent(userId,bookId,period);
+        return rentService.addRent(userId,bookId,period);
     }
 
     @RequestMapping(params = {"id", "period"},method = RequestMethod.PUT)

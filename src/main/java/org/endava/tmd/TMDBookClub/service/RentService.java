@@ -37,18 +37,23 @@ public class RentService {
         return repository.findActiveRents();
     }
 
-    public void addRent(Long userId, Long bookId, int period) {
+    public ResponseEntity<Rent> addRent(Long userId, Long bookId, int period) {
         if(!repository.findIfBookIsRented(bookId) && period>0 && period<=4) {
             Rent rent = new Rent();
             rent.setUser(userRepository.findById(userId).orElse(null));
             rent.setBook(bookRepository.findById(bookId).orElse(null));
+            if(rent.getUser() == null || rent.getBook() == null)
+            {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
             rent.setStartDate(LocalDate.now());
             rent.setEndDate(LocalDate.now().plusWeeks(period));
             Long waitListId = waitListRepository.findIdByIdUserAndIdBook(userId,bookId);
             if(waitListId != null)
                 waitListRepository.deleteById(waitListId);
-            repository.save(rent);
+            return new ResponseEntity<>(repository.save(rent),HttpStatus.CREATED);
         }
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
     public ResponseEntity<Rent> extendPeriod(Long id, int period) {

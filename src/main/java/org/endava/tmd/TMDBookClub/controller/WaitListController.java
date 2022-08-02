@@ -4,6 +4,7 @@ package org.endava.tmd.TMDBookClub.controller;
 import org.endava.tmd.TMDBookClub.entity.WaitList;
 import org.endava.tmd.TMDBookClub.service.WaitListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +22,8 @@ public class WaitListController {
     }
 
     @RequestMapping(params = {"userId","bookId"}, method = RequestMethod.POST)
-    public void addWaitList(@RequestParam Long userId, @RequestParam Long bookId) {
-        waitListService.addWaitList(userId,bookId);
+    public ResponseEntity<WaitList> addWaitList(@RequestParam Long userId, @RequestParam Long bookId) {
+        return waitListService.addWaitList(userId,bookId);
     }
 
 }
