@@ -23,32 +23,33 @@ public class RentController {
         return rentService.getAll();
     }
 
-    @RequestMapping(value = "active",method = RequestMethod.GET)
+    @RequestMapping(value = "active", method = RequestMethod.GET)
     public List<Rent> getActive() {
         return rentService.getActiveRents();
     }
-    @RequestMapping(params = {"userId", "bookId", "period"},method = RequestMethod.POST)
-    public ResponseEntity<Rent> addRent(@RequestParam Long userId, @RequestParam Long bookId, @RequestParam int period)
-    {
-        return rentService.addRent(userId,bookId,period);
+
+    @RequestMapping(params = {"userId", "bookId", "period"}, method = RequestMethod.POST)
+    public ResponseEntity<Rent> addRent(@RequestParam Long userId, @RequestParam Long bookId, @RequestParam int period) {
+        return rentService.addRent(userId, bookId, period);
     }
 
-    @RequestMapping(params = {"id", "period"},method = RequestMethod.PUT)
-    public ResponseEntity<Rent> extendRent(@RequestParam Long id, @RequestParam int period)
-    {
+    @RequestMapping(params = {"id", "period"}, method = RequestMethod.PUT)
+    public ResponseEntity<Rent> extendRent(@RequestParam Long id, @RequestParam int period) {
         return rentService.extendPeriod(id, period);
     }
 
-    @RequestMapping(params = {"userId", "bookId", "period"},method = RequestMethod.PUT)
-    public void extendRent(@RequestParam Long userId, @RequestParam Long bookId, @RequestParam int period)
-    {
+    @RequestMapping(params = {"userId", "bookId", "period"}, method = RequestMethod.PUT)
+    public void extendRent(@RequestParam Long userId, @RequestParam Long bookId, @RequestParam int period) {
         rentService.extendPeriod(userId, bookId, period);
     }
 
-    @RequestMapping(params = {"bookId"},method = RequestMethod.GET)
-    public LocalDate getLastEndDateBookWasRented(@RequestParam Long bookId)
-    {
+    @RequestMapping(params = {"bookId"}, method = RequestMethod.GET)
+    public LocalDate getLastEndDateBookWasRented(@RequestParam Long bookId) {
         return rentService.getLastEndDateBookWasRented(bookId);
     }
 
+    @RequestMapping(value = "availableDate", params = {"bookId"}, method = RequestMethod.GET)
+    public ResponseEntity<LocalDate> getDateWhenBookWillBeAvailable(@RequestParam Long bookId) {
+        return rentService.getDateWhenBookWillBeAvailable(bookId);
+    }
 }

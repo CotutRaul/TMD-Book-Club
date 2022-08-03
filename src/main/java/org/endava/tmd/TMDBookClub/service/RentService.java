@@ -33,25 +33,24 @@ public class RentService {
         return repository.findAll();
     }
 
-    public List<Rent> getActiveRents(){
+    public List<Rent> getActiveRents() {
         return repository.findActiveRents();
     }
 
     public ResponseEntity<Rent> addRent(Long userId, Long bookId, int period) {
-        if(!repository.findIfBookIsRented(bookId) && period>0 && period<=4) {
+        if (!repository.findIfBookIsRented(bookId) && period > 0 && period <= 4) {
             Rent rent = new Rent();
             rent.setUser(userRepository.findById(userId).orElse(null));
             rent.setBook(bookRepository.findById(bookId).orElse(null));
-            if(rent.getUser() == null || rent.getBook() == null)
-            {
+            if (rent.getUser() == null || rent.getBook() == null) {
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             }
             rent.setStartDate(LocalDate.now());
             rent.setEndDate(LocalDate.now().plusWeeks(period));
-            Long waitListId = waitListRepository.findIdByIdUserAndIdBook(userId,bookId);
-            if(waitListId != null)
+            Long waitListId = waitListRepository.findIdByIdUserAndIdBook(userId, bookId);
+            if (waitListId != null)
                 waitListRepository.deleteById(waitListId);
-            return new ResponseEntity<>(repository.save(rent),HttpStatus.CREATED);
+            return new ResponseEntity<>(repository.save(rent), HttpStatus.CREATED);
         }
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
@@ -64,29 +63,34 @@ public class RentService {
             }
             if (WEEKS.between(rent.getStartDate(), rent.getEndDate()) <= 6) {
                 return new ResponseEntity<>(repository.save(rent), HttpStatus.OK);
-            }
-            else{
+            } else {
                 return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
             }
         }
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
-    public void extendPeriod(Long userId, Long bookId, int period)
-    {
-        if(period > 0 && period <= 2)
-        {
+
+    public void extendPeriod(Long userId, Long bookId, int period) {
+        if (period > 0 && period <= 2) {
             Rent rent = repository.findRentByUserIdAndBookId(userId, bookId);
-            if(rent.getEndDate().compareTo(LocalDate.now())>=0){
+            if (rent.getEndDate().compareTo(LocalDate.now()) >= 0) {
                 rent.setEndDate(rent.getEndDate().plusWeeks(period));
             }
-            if(WEEKS.between(rent.getStartDate(),rent.getEndDate())<=6){
+            if (WEEKS.between(rent.getStartDate(), rent.getEndDate()) <= 6) {
                 repository.save(rent);
             }
         }
     }
 
-    public LocalDate getLastEndDateBookWasRented(Long bookId)
-    {
+    public LocalDate getLastEndDateBookWasRented(Long bookId) {
         return repository.findLastEndDateBookWasRented(bookId);
+    }
+
+    public ResponseEntity<LocalDate> getDateWhenBookWillBeAvailable(Long bookId) {
+        LocalDate availableDate = repository.findLastEndDateBookWasRented(bookId).plusDays(1);
+        if (availableDate.compareTo(LocalDate.now()) >= 0) {
+            return new ResponseEntity<>(availableDate, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 }
