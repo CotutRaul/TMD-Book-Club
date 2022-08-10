@@ -13,4 +13,6 @@ public interface WaitListRepository extends JpaRepository<WaitList, Long> {
 
     @Query("select w from WaitList w where w.date < current_date ")
     List<WaitList> findAllByDateLessThanCurrentDate();
+
+    List <WaitList> findWaitListByUser_Id(Long userId);
 }

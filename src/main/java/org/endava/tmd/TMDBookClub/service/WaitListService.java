@@ -1,5 +1,6 @@
 package org.endava.tmd.TMDBookClub.service;
 
+import org.endava.tmd.TMDBookClub.dto.BookDTO;
 import org.endava.tmd.TMDBookClub.entity.WaitList;
 import org.endava.tmd.TMDBookClub.repository.BookRepository;
 import org.endava.tmd.TMDBookClub.repository.RentRepository;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,6 +32,21 @@ public class WaitListService {
 
     public List<WaitList> getAll() {
         return repository.findAll();
+    }
+
+    public ResponseEntity<List<BookDTO>> getWaitListForUser(Long userId) {
+        List<WaitList> waitList = repository.findWaitListByUser_Id(userId);
+        List<BookDTO> bookDTOS = new ArrayList<>();
+        for (WaitList wait : waitList) {
+            BookDTO bookDTO = new BookDTO();
+            bookDTO.setId(wait.getId());
+            bookDTO.setInfo(wait.getBook().getInfo());
+            bookDTO.setReturnDate(rentRepository.findLastEndDateBookWasRented(wait.getBook().getId()).plusDays(1));
+
+            bookDTOS.add(bookDTO);
+        }
+
+        return new ResponseEntity<>(bookDTOS, HttpStatus.OK);
     }
 
     public ResponseEntity<WaitList> addWaitList(Long userId, Long bookId) {
