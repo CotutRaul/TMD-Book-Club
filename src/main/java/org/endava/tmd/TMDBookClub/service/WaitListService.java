@@ -61,4 +61,12 @@ public class WaitListService {
         }
         return new ResponseEntity<>(repository.save(waitList), HttpStatus.CREATED);
     }
+
+    public ResponseEntity<?> deleteWaitList(Long id){
+        if (repository.findById(id).orElse(null) != null){
+            repository.deleteById(id);
+            return new ResponseEntity<>( HttpStatus.OK);
+        }
+        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+    }
 }

@@ -22,6 +22,10 @@ public class WaitListController {
         return waitListService.getAll();
     }
 
+    @RequestMapping(params = {"id"}, method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteWaitList(Long id){
+        return waitListService.deleteWaitList(id);
+    }
     @RequestMapping(params = {"userId"}, method = RequestMethod.GET)
     public ResponseEntity<List<BookDTO>> getWaitListForUser(@RequestParam Long userId) {
         return waitListService.getWaitListForUser(userId);
