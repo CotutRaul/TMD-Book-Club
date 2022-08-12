@@ -12,15 +12,21 @@ import org.endava.tmd.TMDBookClub.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository repository;
@@ -34,6 +40,20 @@ public class UserService {
     @Autowired
     private RentRepository rentRepository;
 
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = repository.findUserByEmail(username);
+        if(user == null){
+            throw new UsernameNotFoundException("User not found");
+        }
+        Collection<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("USER"));
+        return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(),authorities);
+    }
 
     public List<User> getAllUsers() {
         return repository.findAll();
@@ -57,8 +77,10 @@ public class UserService {
     public ResponseEntity<User> addUser(User user)
     {
         User checkUser = repository.findUserByNameOrEmail(user.getName(),user.getEmail());
-        if(checkUser == null)
+        if(checkUser == null) {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             return new ResponseEntity<>(repository.save(user), HttpStatus.CREATED);
+        }
         return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
     }
 
