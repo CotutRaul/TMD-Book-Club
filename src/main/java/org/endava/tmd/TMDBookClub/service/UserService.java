@@ -66,10 +66,11 @@ public class UserService implements UserDetailsService {
 
     public ResponseEntity<User> getUserByEmailAndPassword(String email, String password)
     {
-        User user = repository.findUserByEmailAndPassword(email, password);
-        if (user != null)
-        {
-            return new ResponseEntity<>(user, HttpStatus.OK);
+        User user = repository.findUserByEmail(email);
+        if (user != null) {
+            if(bCryptPasswordEncoder.matches(password,user.getPassword())) {
+                return new ResponseEntity<>(user, HttpStatus.OK);
+            }
         }
         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }

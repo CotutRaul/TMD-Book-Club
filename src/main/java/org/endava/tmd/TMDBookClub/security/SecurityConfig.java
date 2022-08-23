@@ -1,7 +1,7 @@
 package org.endava.tmd.TMDBookClub.security;
 
 
-import org.endava.tmd.TMDBookClub.jwt.JwtUsernameAndPasswordAuthenticationFilter;
+//import org.endava.tmd.TMDBookClub.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import org.endava.tmd.TMDBookClub.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
+//import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -23,24 +23,21 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .cors()
-                .and()
-                .csrf()
+//        final AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+        http.csrf()
                 .disable()
 //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 //                .and()
-//                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter())
+//                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager))
                 .authorizeHttpRequests()
-                .antMatchers("/users/login").permitAll()
-                .antMatchers("/users/register").permitAll()
-                .antMatchers("/**").authenticated();
+                .antMatchers("/authenticate/**").permitAll()
+                .anyRequest().authenticated();
 
         return http.build();
     }
-
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserService userDetailService)
