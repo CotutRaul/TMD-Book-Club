@@ -17,7 +17,7 @@ public interface RentRepository extends JpaRepository<Rent, Long> {
     List<Rent> findBooksReturnToOwner(Long id);
 
     @Query("select r.book from Rent r where r.user.id = :userId and r.endDate >= current_date")
-    List<Book> findbooksRentedByUserId(Long userId);
+    List<Book> findBooksRentedByUserId(Long userId);
 
     @Query("select case when (count(r) > 0)  then true else false end from Rent r where r.book.id = :id and r.endDate >= current_date")
     Boolean findIfBookIsRented(Long id);

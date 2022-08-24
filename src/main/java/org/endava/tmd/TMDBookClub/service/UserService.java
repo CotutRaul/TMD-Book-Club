@@ -151,7 +151,7 @@ public class UserService implements UserDetailsService {
     public String getBooksUserNeedToReturn(Long id)
     {
         StringBuilder result = new StringBuilder("You rented:\n");
-        List<Book> books = rentRepository.findbooksRentedByUserId(id);
+        List<Book> books = rentRepository.findBooksRentedByUserId(id);
         for (Book book : books) {
             result.append("Book with id = ")
                     .append(book.getId()).append(", Title = ")
