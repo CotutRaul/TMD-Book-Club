@@ -2,6 +2,7 @@ package org.endava.tmd.TMDBookClub.controller;
 
 import org.endava.tmd.TMDBookClub.dto.AuthenticationResponse;
 import org.endava.tmd.TMDBookClub.dto.UsernameAndPasswordAuthenticationRequest;
+import org.endava.tmd.TMDBookClub.entity.User;
 import org.endava.tmd.TMDBookClub.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,5 +21,10 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> login(@RequestBody UsernameAndPasswordAuthenticationRequest authenticationRequest) throws Exception{
 
         return authenticationService.login(authenticationRequest);
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody User user) throws Exception{
+        return authenticationService.register(user);
     }
 }
