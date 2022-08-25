@@ -18,13 +18,13 @@ public class AuthenticationController {
     private AuthenticationService authenticationService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody UsernameAndPasswordAuthenticationRequest authenticationRequest) throws Exception{
+    public ResponseEntity<AuthenticationResponse> authenticateLogin(@RequestBody UsernameAndPasswordAuthenticationRequest authenticationRequest) throws Exception{
 
-        return authenticationService.login(authenticationRequest);
+        return authenticationService.authenticateLogin(authenticationRequest);
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody User user) throws Exception{
-        return authenticationService.register(user);
+    public ResponseEntity<AuthenticationResponse> authenticateRegister(@RequestBody User user) throws Exception{
+        return authenticationService.authenticateRegister(user);
     }
 }
