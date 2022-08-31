@@ -20,7 +20,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false , updatable = false)
+    @Column(nullable = false, updatable = false)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -36,16 +36,15 @@ public class User implements UserDetails {
 
     @JsonIgnore
     @OneToMany(mappedBy = "owner")
-    private List <Book> booksList;
+    private List<Book> booksList;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List <Rent> booksRented;
+    private List<Rent> booksRented;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List <WaitList> waitLists;
-
+    private List<WaitList> waitLists;
 
     @Override
     public String toString() {

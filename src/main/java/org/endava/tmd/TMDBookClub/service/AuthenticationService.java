@@ -36,7 +36,7 @@ public class AuthenticationService {
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 
-    public ResponseEntity<AuthenticationResponse> authenticateRegister(org.endava.tmd.TMDBookClub.entity.User user) throws Exception{
+    public ResponseEntity<AuthenticationResponse> authenticateRegister(User user) throws Exception{
         UsernameAndPasswordAuthenticationRequest authenticationRequest = new UsernameAndPasswordAuthenticationRequest(user.getEmail(), user.getPassword());
         if(userService.addUser(user).getStatusCode().value() == 201){
             return authenticateLogin(authenticationRequest);

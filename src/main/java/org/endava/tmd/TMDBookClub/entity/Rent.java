@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class Rent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false , updatable = false)
+    @Column(nullable = false, updatable = false)
     private Long id;
 
     @ManyToOne(optional = false)

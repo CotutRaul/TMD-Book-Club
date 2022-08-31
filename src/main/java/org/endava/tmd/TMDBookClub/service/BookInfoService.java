@@ -17,31 +17,28 @@ import java.util.Optional;
 
 @Service
 public class BookInfoService {
-
     @Autowired
     private BookInfoRepository repository;
 
     @Autowired
     private RentRepository rentRepository;
 
-
     public List<BookInfo> getAll() {
         return repository.findAll();
     }
 
-    public ResponseEntity<List<BookDTO>> getAllHomeBooks(){
+    public ResponseEntity<List<BookDTO>> getAllHomeBooks() {
         List<BookInfo> allBookInfos = repository.findAll();
         List<BookDTO> bookDTOS = new ArrayList<>();
         for (BookInfo allBookInfo : allBookInfos) {
             BookDTO tempBookDTO = new BookDTO();
             tempBookDTO.setInfo(allBookInfo);
             tempBookDTO.setAvailable(false);
-            Long tempId=null;
+            Long tempId = null;
             LocalDate tempDate = LocalDate.now().plusWeeks(7);
-            for(Book book : allBookInfo.getBooksList()) {
+            for (Book book : allBookInfo.getBooksList()) {
                 LocalDate lastDate = rentRepository.findLastEndDateBookWasRented(book.getId());
-                if(lastDate == null)
-                {
+                if (lastDate == null) {
                     tempBookDTO.setId(book.getId());
                     tempBookDTO.setAvailable(true);
                     break;
@@ -49,13 +46,13 @@ public class BookInfoService {
                 if (lastDate.compareTo(tempDate) < 0) {
                     tempId = book.getId();
                     tempDate = lastDate;
-                    if(lastDate.compareTo(LocalDate.now())<0){
+                    if (lastDate.compareTo(LocalDate.now()) < 0) {
                         tempBookDTO.setAvailable(true);
                         break;
                     }
                 }
             }
-            if(tempBookDTO.getId() == null){
+            if (tempBookDTO.getId() == null) {
                 tempBookDTO.setId(tempId);
             }
             bookDTOS.add(tempBookDTO);

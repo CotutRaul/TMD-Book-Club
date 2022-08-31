@@ -13,10 +13,8 @@ import java.util.List;
 @RequestMapping("rents")
 @CrossOrigin
 public class RentController {
-
     @Autowired
     private RentService rentService;
-
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Rent> getAll() {

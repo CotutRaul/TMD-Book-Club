@@ -16,7 +16,6 @@ import java.util.List;
 @RequestMapping("users")
 @CrossOrigin
 public class UserController {
-
     @Autowired
     private UserService userService;
 
@@ -29,56 +28,49 @@ public class UserController {
     @RequestMapping(params = "id", method = RequestMethod.GET)
     public Object getById(@RequestParam("id") Long id) {
 
-        return userService.getUserById(id).isPresent()? userService.getUserById(id).get() :
+        return userService.getUserById(id).isPresent() ? userService.getUserById(id).get() :
                 new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
 
     @RequestMapping(params = {"email", "password"}, method = RequestMethod.GET)
-    public ResponseEntity<User> getUserByEmailAndPassword(@RequestParam("email") String email, @RequestParam("password") String password)
-    {
-        return userService.getUserByEmailAndPassword(email,password);
+    public ResponseEntity<User> getUserByEmailAndPassword(@RequestParam("email") String email, @RequestParam("password") String password) {
+        return userService.getUserByEmailAndPassword(email, password);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<User> addUser(@RequestBody User user)
-    {
+    public ResponseEntity<User> addUser(@RequestBody User user) {
         return userService.addUser(user);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public void updateUser(@RequestBody User user)
-    {
+    public void updateUser(@RequestBody User user) {
         userService.updateUser(user);
     }
 
     @RequestMapping(params = "id", method = RequestMethod.DELETE)
-    public void deleteById(@RequestParam("id") Long id)
-    {
+    public void deleteById(@RequestParam("id") Long id) {
         userService.deleteUser(id);
     }
 
     @RequestMapping(params = "id", method = RequestMethod.POST)
-    public ResponseEntity<Book> addBook(@RequestParam("id") Long id, @RequestBody BookInfo bookInfo)
-    {
+    public ResponseEntity<Book> addBook(@RequestParam("id") Long id, @RequestBody BookInfo bookInfo) {
         return userService.addBook(id, bookInfo);
     }
 
     @RequestMapping(params = "id", value = "booksReturn", method = RequestMethod.GET)
-    public String getBooksReturnToOwner(@RequestParam("id") Long id)
-    {
+    public String getBooksReturnToOwner(@RequestParam("id") Long id) {
         return userService.getBooksReturnToOwner(id);
     }
 
     @RequestMapping(params = "id", value = "myBooks", method = RequestMethod.GET)
-    public ResponseEntity<List<BookDTO>> getMyBooks(@RequestParam("id") Long id)
-    {
+    public ResponseEntity<List<BookDTO>> getMyBooks(@RequestParam("id") Long id) {
         return userService.getMyBooks(id);
     }
 
 
     @RequestMapping(params = "id", value = "giveRentedBooks", method = RequestMethod.GET)
-    public String getBooksUserNeedToReturn(@RequestParam("id") Long id){
+    public String getBooksUserNeedToReturn(@RequestParam("id") Long id) {
         return userService.getBooksUserNeedToReturn(id);
     }
 

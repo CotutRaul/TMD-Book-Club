@@ -24,7 +24,6 @@ import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
-
     @Autowired
     private UserRepository repository;
 
@@ -45,7 +44,7 @@ public class UserService implements UserDetailsService {
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = repository.findUserByEmail(username);
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
         return user;
@@ -55,34 +54,30 @@ public class UserService implements UserDetailsService {
         return repository.findAll();
     }
 
-    public Optional<User> getUserById(Long id)
-    {
+    public Optional<User> getUserById(Long id) {
         return repository.findById(id);
     }
 
-    public ResponseEntity<User> getUserByEmailAndPassword(String email, String password)
-    {
+    public ResponseEntity<User> getUserByEmailAndPassword(String email, String password) {
         User user = repository.findUserByEmail(email);
         if (user != null) {
-            if(bCryptPasswordEncoder.matches(password,user.getPassword())) {
+            if (bCryptPasswordEncoder.matches(password, user.getPassword())) {
                 return new ResponseEntity<>(user, HttpStatus.OK);
             }
         }
         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity<User> addUser(User user)
-    {
-        User checkUser = repository.findUserByNameOrEmail(user.getName(),user.getEmail());
-        if(checkUser == null) {
+    public ResponseEntity<User> addUser(User user) {
+        User checkUser = repository.findUserByNameOrEmail(user.getName(), user.getEmail());
+        if (checkUser == null) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             return new ResponseEntity<>(repository.save(user), HttpStatus.CREATED);
         }
-        return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
-    public void deleteUser(Long id)
-    {
+    public void deleteUser(Long id) {
         repository.deleteById(id);
     }
 
@@ -95,22 +90,21 @@ public class UserService implements UserDetailsService {
     public ResponseEntity<Book> addBook(Long id, BookInfo bookInfo) {
         HttpStatus status = HttpStatus.OK;
         User tempUser = repository.findById(id).orElse(null);
-        if(tempUser == null || bookInfo.getTitle().equals("") || bookInfo.getAuthor().equals("")){
-            return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+        if (tempUser == null || bookInfo.getTitle().equals("") || bookInfo.getAuthor().equals("")) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
         BookInfo tempBookInfo = bookInfoRepository.findBookInfoByTitle(bookInfo.getTitle());
-        if(tempBookInfo == null){
+        if (tempBookInfo == null) {
             tempBookInfo = bookInfoRepository.save(bookInfo);
             status = HttpStatus.CREATED;
         }
         Book book = new Book();
         book.setInfo(tempBookInfo);
         book.setOwner(tempUser);
-        return new ResponseEntity<>(bookRepository.save(book),status);
+        return new ResponseEntity<>(bookRepository.save(book), status);
     }
 
-    public String getBooksReturnToOwner(Long id)
-    {
+    public String getBooksReturnToOwner(Long id) {
         StringBuilder result = new StringBuilder();
         List<Rent> rents = rentRepository.findBooksReturnToOwner(id);
 
@@ -125,8 +119,7 @@ public class UserService implements UserDetailsService {
         return result.toString();
     }
 
-    public ResponseEntity<List<BookDTO>> getMyBooks(Long id)
-    {
+    public ResponseEntity<List<BookDTO>> getMyBooks(Long id) {
         List<BookDTO> bookDTOS = new ArrayList<>();
         List<Book> booksList = repository.findById(id).get().getBooksList();
         for (Book book : booksList) {
@@ -140,12 +133,11 @@ public class UserService implements UserDetailsService {
             }
             bookDTOS.add(bookDTO);
         }
-        return new ResponseEntity<>(bookDTOS,HttpStatus.OK);
+        return new ResponseEntity<>(bookDTOS, HttpStatus.OK);
     }
 
 
-    public String getBooksUserNeedToReturn(Long id)
-    {
+    public String getBooksUserNeedToReturn(Long id) {
         StringBuilder result = new StringBuilder("You rented:\n");
         List<Book> books = rentRepository.findBooksRentedByUserId(id);
         for (Book book : books) {
@@ -158,8 +150,7 @@ public class UserService implements UserDetailsService {
         return result.toString();
     }
 
-    public ResponseEntity<List<BookDTO>> getMyRented(Long id)
-    {
+    public ResponseEntity<List<BookDTO>> getMyRented(Long id) {
         List<BookDTO> bookDTOS = new ArrayList<>();
         List<Rent> rents = rentRepository.findActiveRentsByUserId(id);
         for (Rent rent : rents) {
@@ -170,7 +161,7 @@ public class UserService implements UserDetailsService {
             bookDTO.setReturnDate(rent.getEndDate());
             bookDTOS.add(bookDTO);
         }
-        return new ResponseEntity<>(bookDTOS,HttpStatus.OK);
+        return new ResponseEntity<>(bookDTOS, HttpStatus.OK);
     }
 }
 

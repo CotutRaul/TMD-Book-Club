@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
-
     @Query("SELECT b FROM Book b WHERE b.owner.id <> :id")
     List<Book> findBooksFromOtherUsers(Long id);
 

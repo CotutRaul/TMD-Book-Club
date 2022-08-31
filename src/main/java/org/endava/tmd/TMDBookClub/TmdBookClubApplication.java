@@ -7,15 +7,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @OpenAPIDefinition(
-		info = @Info(
-				title = "TMD Book Club API",
-				version = "1.0.0",
-				description = "An application to manage the books sharing"
-		))
+        info = @Info(
+                title = "TMD Book Club API",
+                version = "1.0.0",
+                description = "An application to manage the books sharing"
+        ))
 public class TmdBookClubApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TmdBookClubApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TmdBookClubApplication.class, args);
+    }
 
 }

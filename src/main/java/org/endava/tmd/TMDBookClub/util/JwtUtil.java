@@ -14,7 +14,6 @@ import java.util.function.Function;
 
 @Service
 public class JwtUtil {
-
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
@@ -30,6 +29,7 @@ public class JwtUtil {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
     private Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }

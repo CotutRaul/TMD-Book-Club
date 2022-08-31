@@ -14,7 +14,6 @@ import java.util.List;
 @RequestMapping("bookInfos")
 @CrossOrigin
 public class BookInfoController {
-
     @Autowired
     private BookInfoService bookInfoService;
 
@@ -25,32 +24,28 @@ public class BookInfoController {
     }
 
     @RequestMapping(value = "home", method = RequestMethod.GET)
-    public ResponseEntity<List<BookDTO>> getAllHomeBooks(){
+    public ResponseEntity<List<BookDTO>> getAllHomeBooks() {
         return bookInfoService.getAllHomeBooks();
     }
 
     @RequestMapping(params = "id", method = RequestMethod.GET)
     public Object getById(@RequestParam("id") Long id) {
-
-        return bookInfoService.getById(id).isPresent()? bookInfoService.getById(id).get() :
+        return bookInfoService.getById(id).isPresent() ? bookInfoService.getById(id).get() :
                 new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
     }
+
     @RequestMapping(method = RequestMethod.POST)
-    public void addUser(@RequestBody BookInfo bookInfo)
-    {
+    public void addUser(@RequestBody BookInfo bookInfo) {
         bookInfoService.addBookInfo(bookInfo);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public void updateUser(@RequestBody BookInfo bookInfo)
-    {
+    public void updateUser(@RequestBody BookInfo bookInfo) {
         bookInfoService.updateBookInfo(bookInfo);
     }
 
-    @RequestMapping(params = {"id"},method = RequestMethod.DELETE)
-    public void deleteById(@RequestParam("id") Long id)
-    {
+    @RequestMapping(params = {"id"}, method = RequestMethod.DELETE)
+    public void deleteById(@RequestParam("id") Long id) {
         bookInfoService.deleteBookInfo(id);
     }
 

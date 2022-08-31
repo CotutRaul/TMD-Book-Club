@@ -23,17 +23,18 @@ public class WaitListController {
     }
 
     @RequestMapping(params = {"id"}, method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteWaitList(Long id){
+    public ResponseEntity<?> deleteWaitList(Long id) {
         return waitListService.deleteWaitList(id);
     }
+
     @RequestMapping(params = {"userId"}, method = RequestMethod.GET)
     public ResponseEntity<List<BookDTO>> getWaitListForUser(@RequestParam Long userId) {
         return waitListService.getWaitListForUser(userId);
     }
 
-    @RequestMapping(params = {"userId","bookId"}, method = RequestMethod.POST)
+    @RequestMapping(params = {"userId", "bookId"}, method = RequestMethod.POST)
     public ResponseEntity<WaitList> addWaitList(@RequestParam Long userId, @RequestParam Long bookId) {
-        return waitListService.addWaitList(userId,bookId);
+        return waitListService.addWaitList(userId, bookId);
     }
 
 }

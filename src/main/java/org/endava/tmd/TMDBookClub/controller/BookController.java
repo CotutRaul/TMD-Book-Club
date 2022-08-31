@@ -22,21 +22,18 @@ public class BookController {
         return bookService.getAll();
     }
 
-    @RequestMapping(params = {"id"}, value = "/available",method = RequestMethod.GET)
-    public List<Book> getAvailableBooks(@RequestParam Long id)
-    {
+    @RequestMapping(params = {"id"}, value = "/available", method = RequestMethod.GET)
+    public List<Book> getAvailableBooks(@RequestParam Long id) {
         return bookService.getAvailableBooks(id);
     }
 
     @RequestMapping(params = {"search"}, value = "search", method = RequestMethod.GET)
-    public String searchForBooks(@RequestParam String search)
-    {
+    public String searchForBooks(@RequestParam String search) {
         return bookService.searchForBooks(search);
     }
 
     @RequestMapping(params = {"userId", "bookInfoId"}, method = RequestMethod.POST)
-    public void addBook(@RequestParam Long userId,@RequestParam Long bookInfoId)
-    {
-        bookService.addBook(userId,bookInfoId);
+    public void addBook(@RequestParam Long userId, @RequestParam Long bookInfoId) {
+        bookService.addBook(userId, bookInfoId);
     }
 }

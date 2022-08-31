@@ -15,9 +15,8 @@ import java.util.List;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false , updatable = false)
+    @Column(nullable = false, updatable = false)
     private Long id;
-
 
     @ManyToOne(optional = false)
     private User owner;

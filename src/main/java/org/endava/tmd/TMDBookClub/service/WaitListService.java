@@ -29,7 +29,6 @@ public class WaitListService {
     @Autowired
     private RentRepository rentRepository;
 
-
     public List<WaitList> getAll() {
         return repository.findAll();
     }
@@ -55,18 +54,18 @@ public class WaitListService {
         waitList.setBook(bookRepository.findById(bookId).orElse(null));
 
         waitList.setDate(rentRepository.findLastEndDateBookWasRented(bookId));
-        if(waitList.getUser() == null || waitList.getBook() == null
-                || waitList.getDate() == null || waitList.getDate().compareTo(LocalDate.now())<0){
+        if (waitList.getUser() == null || waitList.getBook() == null
+                || waitList.getDate() == null || waitList.getDate().compareTo(LocalDate.now()) < 0) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(repository.save(waitList), HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> deleteWaitList(Long id){
-        if (repository.findById(id).orElse(null) != null){
+    public ResponseEntity<?> deleteWaitList(Long id) {
+        if (repository.findById(id).orElse(null) != null) {
             repository.deleteById(id);
-            return new ResponseEntity<>( HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
