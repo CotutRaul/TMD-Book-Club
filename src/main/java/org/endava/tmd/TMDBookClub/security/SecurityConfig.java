@@ -37,6 +37,18 @@ public class SecurityConfig {
         return source;
     }
 
+    private static final String[] SWAGGER_WHITELIST = {
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+    };
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors()
@@ -46,6 +58,7 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
+                .antMatchers(SWAGGER_WHITELIST).permitAll()
                 .antMatchers("/authenticate/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
